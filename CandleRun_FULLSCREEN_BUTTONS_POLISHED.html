@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#04070b">
+<title>CandleRun — Polished Fullscreen Buttons</title>
+<style>
+  html,body{margin:0;height:100%;background:#04070b;color:#e9f2ef;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Arial,sans-serif;overflow:hidden}
+  .loader{height:100%;display:grid;place-items:center;text-align:center;padding:28px;background:radial-gradient(90% 60% at 50% 0%,rgba(25,233,140,.14),transparent 60%),#04070b}
+  .card{max-width:420px;border:1px solid rgba(25,233,140,.25);border-radius:28px;padding:28px 22px;background:linear-gradient(160deg,#101c27,#070b11);box-shadow:0 20px 70px rgba(0,0,0,.55),0 0 40px rgba(25,233,140,.12)}
+  h1{margin:0 0 8px;font-size:30px;font-style:italic}.g{color:#19e98c}.muted{color:#9aa7ad;line-height:1.45;font-size:14px}.err{color:#ff8a96;margin-top:14px;font-size:13px}
+</style>
+</head>
+<body>
+<div class="loader"><div class="card"><h1>Candle<span class="g">Run</span></h1><p class="muted">Loading polished fullscreen controls…</p><div id="err" class="err"></div></div></div>
+<script>
+(async function(){
+  const source = 'CandleRun%20V9%20GOAT%20Trading%20Game%203.html';
+  const patchStyle = `
+<style id="segun-fullscreen-button-polish">
+/* ============================================================
+   Segun full-screen trading dock polish
+   Better fit for LONG / SHORT + fullscreen exit on iPhone.
+   ============================================================ */
+body.fs-chart .chartcard{
+  background:
+    radial-gradient(90% 58% at 50% -10%,rgba(25,233,140,.105),transparent 62%),
+    radial-gradient(60% 38% at 100% 16%,rgba(47,230,200,.055),transparent 60%),
+    #060a0f !important;
+}
+body.fs-chart #chart-host{padding-bottom:118px;}
+body.fs-chart .fs-dock{
+  left:14px !important;
+  right:14px !important;
+  bottom:calc(env(safe-area-inset-bottom,0px) + 12px) !important;
+  z-index:40 !important;
+  border-radius:26px !important;
+  padding:12px !important;
+  gap:10px !important;
+  background:
+    linear-gradient(180deg,rgba(9,22,26,.88),rgba(4,9,15,.96)),
+    radial-gradient(75% 100% at 18% 0%,rgba(25,233,140,.16),transparent 58%),
+    radial-gradient(55% 95% at 82% 8%,rgba(255,77,94,.10),transparent 58%) !important;
+  border:1px solid rgba(142,255,218,.26) !important;
+  box-shadow:
+    0 22px 60px rgba(0,0,0,.64),
+    0 0 0 1px rgba(25,233,140,.07),
+    0 0 34px rgba(25,233,140,.09),
+    inset 0 1px 0 rgba(255,255,255,.08),
+    inset 0 -28px 70px rgba(0,0,0,.22) !important;
+  backdrop-filter:blur(18px) saturate(1.15) !important;
+  -webkit-backdrop-filter:blur(18px) saturate(1.15) !important;
+}
+body.fs-chart .fs-dock:before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  border-radius:inherit;
+  background:linear-gradient(115deg,rgba(255,255,255,.13),transparent 18%,transparent 70%,rgba(25,233,140,.06));
+  opacity:.55;
+}
+body.fs-chart .fs-dock>*{position:relative;z-index:1;}
+body.fs-chart .fs-dock .cd-btn{margin-left:0 !important;}
+body.fs-chart .fs-dock .cd-btn + .cd-btn{margin-left:0 !important;}
+
+/* Flat / no-position mode: two clean entry buttons + dedicated exit pill */
+body.fs-chart .fs-dock:not(:has(.cd-dir)){
+  display:grid !important;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr) 76px;
+  grid-template-areas:
+    "long short exit"
+    "info info exit";
+  align-items:stretch !important;
+}
+body.fs-chart .fs-dock:not(:has(.cd-dir)) .fsd-buy{grid-area:long;}
+body.fs-chart .fs-dock:not(:has(.cd-dir)) .fsd-sell{grid-area:short;}
+body.fs-chart .fs-dock:not(:has(.cd-dir)) .fsd-info{grid-area:info;}
+body.fs-chart .fs-dock:not(:has(.cd-dir)) .fsx.exit{grid-area:exit;}
+
+body.fs-chart .fsd-buy,
+body.fs-chart .fsd-sell{
+  min-height:62px !important;
+  height:62px !important;
+  border-radius:19px !important;
+  font-size:15px !important;
+  font-weight:1000 !important;
+  letter-spacing:.9px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  overflow:hidden !important;
+  isolation:isolate;
+  transform:translateZ(0);
+  text-shadow:0 1px 0 rgba(255,255,255,.12);
+}
+body.fs-chart .fsd-buy:before,
+body.fs-chart .fsd-sell:before{
+  content:"";
+  position:absolute;
+  inset:1px;
+  border-radius:18px;
+  background:linear-gradient(145deg,rgba(255,255,255,.38),transparent 31%,transparent 65%,rgba(0,0,0,.18));
+  opacity:.44;
+  pointer-events:none;
+}
+body.fs-chart .fsd-buy:after,
+body.fs-chart .fsd-sell:after{
+  position:absolute;
+  bottom:7px;
+  left:0;
+  right:0;
+  text-align:center;
+  font-size:8px;
+  letter-spacing:1.45px;
+  font-weight:1000;
+  opacity:.76;
+}
+body.fs-chart .fsd-buy:after{content:"BUY / CALL"; color:rgba(1,32,22,.76);}
+body.fs-chart .fsd-sell:after{content:"SELL / PUT"; color:rgba(42,5,8,.76);}
+body.fs-chart .fsd-buy{
+  color:#02170f !important;
+  background:linear-gradient(180deg,#73ffbd 0%,#22f19a 46%,#0dbb73 100%) !important;
+  box-shadow:0 13px 28px rgba(25,233,140,.34),0 0 22px rgba(25,233,140,.18),inset 0 1px 0 rgba(255,255,255,.42) !important;
+}
+body.fs-chart .fsd-sell{
+  color:#2a0508 !important;
+  background:linear-gradient(180deg,#ff9aa4 0%,#ff5b69 48%,#dd2f3f 100%) !important;
+  box-shadow:0 13px 28px rgba(255,77,94,.32),0 0 22px rgba(255,77,94,.16),inset 0 1px 0 rgba(255,255,255,.35) !important;
+}
+body.fs-chart .fsd-buy:active,
+body.fs-chart .fsd-sell:active,
+body.fs-chart .fsx.exit:active{transform:scale(.975) translateY(1px) !important;}
+
+body.fs-chart .fsd-info{
+  min-height:29px;
+  display:flex !important;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  border-radius:14px;
+  padding:7px 10px !important;
+  background:rgba(255,255,255,.042);
+  border:1px solid rgba(150,255,220,.11);
+  color:rgba(207,224,230,.82) !important;
+  font-size:10.4px !important;
+  font-weight:900 !important;
+  letter-spacing:.5px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
+}
+body.fs-chart .fsd-info:before{
+  content:"SETUP";
+  color:var(--green);
+  font-size:8px;
+  letter-spacing:1.25px;
+  opacity:.95;
+}
+
+/* Fullscreen exit / zoom-out button becomes a real control, not a random box */
+body.fs-chart .fsx.exit{
+  width:76px !important;
+  min-width:76px !important;
+  height:100% !important;
+  min-height:62px !important;
+  border-radius:20px !important;
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:5px !important;
+  padding:8px !important;
+  color:#dffcf1 !important;
+  background:linear-gradient(180deg,rgba(14,32,37,.96),rgba(6,13,20,.98)) !important;
+  border:1px solid rgba(150,255,220,.30) !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.09),0 10px 26px rgba(0,0,0,.38),0 0 20px rgba(47,230,200,.08) !important;
+}
+body.fs-chart .fsx.exit svg{width:20px !important;height:20px !important;stroke:currentColor !important;}
+body.fs-chart .fsx.exit:after{
+  content:"EXIT";
+  display:block;
+  font-size:8px;
+  letter-spacing:1.45px;
+  font-weight:1000;
+  color:rgba(207,224,230,.74);
+}
+
+/* In-position mode: make SL→BE / Close / Exit feel intentional too */
+body.fs-chart .fs-dock:has(.cd-dir){
+  display:grid !important;
+  grid-template-columns:auto minmax(58px,1fr) auto auto 68px;
+  align-items:center !important;
+}
+body.fs-chart .fs-dock:has(.cd-dir) .cd-dir{font-size:10px !important;padding:7px 10px !important;border-radius:999px !important;}
+body.fs-chart .fs-dock:has(.cd-dir) .fd-mk{font-size:10px !important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+body.fs-chart .fs-dock:has(.cd-dir) .cd-pnl{font-size:14px !important;}
+body.fs-chart .fs-dock:has(.cd-dir) .cd-r{font-size:10px !important;}
+body.fs-chart .fs-dock:has(.cd-dir) .cd-btn{min-height:42px !important;border-radius:15px !important;padding:9px 11px !important;font-size:11px !important;}
+body.fs-chart .fs-dock:has(.cd-dir) .fsx.exit{width:62px !important;min-width:62px !important;min-height:42px !important;height:42px !important;border-radius:15px !important;}
+body.fs-chart .fs-dock:has(.cd-dir) .fsx.exit:after{font-size:7px;}
+
+@media(max-width:430px){
+  body.fs-chart #chart-host{padding-bottom:112px;}
+  body.fs-chart .fs-dock{left:10px !important;right:10px !important;bottom:calc(env(safe-area-inset-bottom,0px) + 10px) !important;border-radius:24px !important;padding:10px !important;gap:9px !important;}
+  body.fs-chart .fs-dock:not(:has(.cd-dir)){grid-template-columns:minmax(0,1fr) minmax(0,1fr) 66px;}
+  body.fs-chart .fsd-buy,body.fs-chart .fsd-sell{height:58px !important;min-height:58px !important;border-radius:17px !important;font-size:13.5px !important;letter-spacing:.65px !important;}
+  body.fs-chart .fsd-buy:after,body.fs-chart .fsd-sell:after{font-size:7px;bottom:6px;letter-spacing:1.1px;}
+  body.fs-chart .fsx.exit{width:66px !important;min-width:66px !important;min-height:58px !important;border-radius:18px !important;}
+  body.fs-chart .fsx.exit svg{width:18px !important;height:18px !important;}
+  body.fs-chart .fsx.exit:after{font-size:7px;letter-spacing:1.1px;}
+  body.fs-chart .fsd-info{font-size:9.6px !important;padding:6px 8px !important;}
+  body.fs-chart .fsd-info:before{font-size:7.2px;}
+  body.fs-chart .fs-dock:has(.cd-dir){grid-template-columns:1fr 1fr 1fr;}
+  body.fs-chart .fs-dock:has(.cd-dir) .cd-dir{grid-column:1 / 2;}
+  body.fs-chart .fs-dock:has(.cd-dir) .fd-mk{grid-column:2 / 4;text-align:right;}
+  body.fs-chart .fs-dock:has(.cd-dir) .cd-pnl{grid-column:1 / 2;}
+  body.fs-chart .fs-dock:has(.cd-dir) .cd-r{grid-column:2 / 3;text-align:center;}
+  body.fs-chart .fs-dock:has(.cd-dir) .be{grid-column:1 / 2;}
+  body.fs-chart .fs-dock:has(.cd-dir) .close{grid-column:2 / 3;}
+  body.fs-chart .fs-dock:has(.cd-dir) .fsx.exit{grid-column:3 / 4;width:100% !important;min-width:0 !important;}
+}
+</style>`;
+  try{
+    const res = await fetch(source, {cache:'no-store'});
+    if(!res.ok) throw new Error('Could not load the game file: '+res.status);
+    let html = await res.text();
+    html = html.replace('</head>', patchStyle + '\n</head>');
+    document.open();
+    document.write(html);
+    document.close();
+  }catch(err){
+    document.getElementById('err').textContent = err.message || String(err);
+  }
+})();
+</script>
+</body>
+</html>
