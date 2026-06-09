@@ -1,11 +1,15 @@
 # Open CandleRun
 
-Tap this link to open the game without messing with GitHub Pages:
+The jsDelivr link showed the HTML code as text on iPhone, so use this one instead:
 
-https://cdn.jsdelivr.net/gh/segunsnyder6-cell/Candlerun-@main/CandleRun%20V9%20GOAT%20Trading%20Game%203.html
+https://raw.githack.com/segunsnyder6-cell/Candlerun-/main/CandleRun%20V9%20GOAT%20Trading%20Game%203.html
 
-Backup simple launcher page:
+Cooler launcher page:
 
-https://cdn.jsdelivr.net/gh/segunsnyder6-cell/Candlerun-@main/index.html
+https://raw.githack.com/segunsnyder6-cell/Candlerun-/main/index.html
 
-If the newest version does not show instantly, wait a few minutes because CDN links can cache for a bit.
+GitHub Pages backup, if it activates:
+
+https://segunsnyder6-cell.github.io/Candlerun-/
+
+Tip: open the raw.githack game link in Safari, then tap Share -> Add to Home Screen.
